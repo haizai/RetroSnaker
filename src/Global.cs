@@ -4,6 +4,6 @@ namespace RetroSnaker
 {
     class Global
     {
-        static public int Fps {private set; get;} = 60;
+        static public int Fps {private set; get;} = 10;
     }
 }
