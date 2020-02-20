@@ -1,0 +1,11 @@
+e:\c#\RetroSnaker\bin\Debug\netcoreapp3.1\RetroSnaker.exe
+e:\c#\RetroSnaker\bin\Debug\netcoreapp3.1\RetroSnaker.deps.json
+e:\c#\RetroSnaker\bin\Debug\netcoreapp3.1\RetroSnaker.runtimeconfig.json
+e:\c#\RetroSnaker\bin\Debug\netcoreapp3.1\RetroSnaker.runtimeconfig.dev.json
+e:\c#\RetroSnaker\bin\Debug\netcoreapp3.1\RetroSnaker.dll
+e:\c#\RetroSnaker\bin\Debug\netcoreapp3.1\RetroSnaker.pdb
+e:\c#\RetroSnaker\obj\Debug\netcoreapp3.1\RetroSnaker.csprojAssemblyReference.cache
+e:\c#\RetroSnaker\obj\Debug\netcoreapp3.1\RetroSnaker.AssemblyInfoInputs.cache
+e:\c#\RetroSnaker\obj\Debug\netcoreapp3.1\RetroSnaker.AssemblyInfo.cs
+e:\c#\RetroSnaker\obj\Debug\netcoreapp3.1\RetroSnaker.dll
+e:\c#\RetroSnaker\obj\Debug\netcoreapp3.1\RetroSnaker.pdb
