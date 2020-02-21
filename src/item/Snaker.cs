@@ -1,10 +1,10 @@
+// 主角蛇
 using System;
 using System.Collections.Generic;
 namespace RetroSnaker
 {
     class Snaker:IItem
     {
-        private int speed = 1000;
         public Dir dir = Dir.Right;
         private List<Cell> cellList = new List<Cell>();
         public Snaker() {

@@ -1,3 +1,4 @@
+// 渲染用数据
 using System;
 namespace RetroSnaker {
     class DrawData {

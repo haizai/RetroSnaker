@@ -1,3 +1,4 @@
+// 蛇上方块
 using System.Collections.Generic;
 namespace RetroSnaker {
     class Cell {

@@ -2,8 +2,11 @@
 using System;
 namespace RetroSnaker
 {
+    
+    delegate void Function();
     class Global
     {
-        static public int Fps {private set; get;} = 10;
+        // 蛇移动速度即为1帧1格
+        static public int Fps {private set; get;} = 5;
     }
 }
