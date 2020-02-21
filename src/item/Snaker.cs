@@ -8,14 +8,9 @@ namespace RetroSnaker
         public Dir dir = Dir.Right;
         private List<Cell> cellList = new List<Cell>();
         public Snaker() {
-            var headCell = new Cell(10,1,Dir.Right);
+            var headCell = new Cell(5,1,Dir.Right);
             headCell.isHead = true;
             this.cellList.Add(headCell);
-            this.cellList.Add(new Cell(9,1,Dir.Right));
-            this.cellList.Add(new Cell(8,1,Dir.Right));
-            this.cellList.Add(new Cell(7,1,Dir.Right));
-            this.cellList.Add(new Cell(6,1,Dir.Right));
-            this.cellList.Add(new Cell(5,1,Dir.Right));
             this.cellList.Add(new Cell(4,1,Dir.Right));
             this.cellList.Add(new Cell(3,1,Dir.Right));
             this.cellList.Add(new Cell(2,1,Dir.Right));

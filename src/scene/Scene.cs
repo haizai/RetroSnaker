@@ -7,8 +7,11 @@ namespace RetroSnaker
     class Scene
     {
         private List<IItem> itemList = new List<IItem>();
+        private Snaker snaker;
+        private Map map;
         public Scene() {
-            var snaker = new Snaker();
+            map = new Map(40,80);
+            snaker = new Snaker();
             this.itemList.Add(snaker);
             
             TestFun(2,()=>{
@@ -28,16 +31,16 @@ namespace RetroSnaker
             });
         }
         public void runLoop(){
-            Console.Clear();
             foreach (var item in this.itemList)
             {
                 item.Update();
                 var drawDatas = item.Draw();
+                DebugMode.DebugArg(drawDatas);
                 foreach (var drawData in drawDatas) {
-                    Console.SetCursorPosition(drawData.x*2,drawData.y);
-                    Console.ForegroundColor = drawData.foreColor;
-                    Console.Write(drawData.cha);
+                    this.map.AddNowDrawData(drawData);
                 }
+                DebugMode.Debug(this.map);
+                this.map.DrawDiff();
             }
         }
         private void TestFun(int frame, Function cb) {

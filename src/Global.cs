@@ -7,6 +7,6 @@ namespace RetroSnaker
     class Global
     {
         // 蛇移动速度即为1帧1格
-        static public int Fps {private set; get;} = 5;
+        static public int Fps {private set; get;} = 1;
     }
 }
