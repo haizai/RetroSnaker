@@ -10,6 +10,7 @@ namespace RetroSnaker
         private Snaker snaker;
         private Map map;
         public Scene() {
+            Global.Event.addEventListener(EventName.AfterUpdate,this.OnAfterUpdate);
             map = new Map(40,80);
             snaker = new Snaker();
             this.itemList.Add(snaker);
@@ -43,14 +44,15 @@ namespace RetroSnaker
                 this.map.DrawDiff();
             }
         }
+        private Dictionary<int, Function> testDic = new Dictionary<int,Function>();
         private void TestFun(int frame, Function cb) {
-            var timer2 = new Timer(frame * 1000 / Global.Fps);
-            timer2.Elapsed += (Object source, ElapsedEventArgs e) => {
-                cb();
-            };
-            timer2.AutoReset = false;
-            timer2.Enabled = true;
-            timer2.Start();
+            this.testDic[frame] = cb;
+        }
+        private void OnAfterUpdate(Object sender, EventArgs e) {
+            var e1 = (EventArgsFrame)e;
+            if (this.testDic.ContainsKey(e1.frame)) {
+                this.testDic[e1.frame]();
+            }
         }
     }
 }

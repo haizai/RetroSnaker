@@ -23,7 +23,10 @@ namespace RetroSnaker
             await Task.Run(work);
         }
         private void LoopHandler(Object source, ElapsedEventArgs e){
+            Global.Frame++;
+            Global.Event.emit(EventName.BeforeUpdate,new EventArgsFrame(){frame = Global.Frame});
             this.scene.runLoop();
+            Global.Event.emit(EventName.AfterUpdate,new EventArgsFrame(){frame = Global.Frame});
         }
         private void Init(){
             this.scene = new Scene();
