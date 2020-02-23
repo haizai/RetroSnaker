@@ -10,8 +10,11 @@ namespace RetroSnaker
         private HeadCell headCell;
         public bool hideHead = false;
         public Snaker() {
-            headCell = new HeadCell(7,1,Dir.Right);
+            headCell = new HeadCell(10,1,Dir.Right);
             this.cellList.Add(headCell);
+            this.cellList.Add(new Cell(9,1,Dir.Right));
+            this.cellList.Add(new Cell(8,1,Dir.Right));
+            this.cellList.Add(new Cell(7,1,Dir.Right));
             this.cellList.Add(new Cell(6,1,Dir.Right));
             this.cellList.Add(new Cell(5,1,Dir.Right));
             this.cellList.Add(new Cell(4,1,Dir.Right));
@@ -33,6 +36,7 @@ namespace RetroSnaker
             for (int i = 0; i < this.cellList.Count; i++) {
                 this.cellList[i].Update();
             }
+            this.TestKnockSelf();
         }
         private List<Dir> turnList = new List<Dir>();
         private void OnTurnDir(Object sender, EventArgs e) {
@@ -74,7 +78,19 @@ namespace RetroSnaker
             return this.headCell.GetPos();
         }
         public void KnockWall(){
-            this.headCell.KnockWall();
+            this.headCell.Knock();
+        }
+        private void TestKnockSelf() {
+            foreach(var cell in this.cellList) {
+                if (!(cell is HeadCell)) {
+                    if (cell.x == this.headCell.x && cell.y == this.headCell.y) {
+                        Global.State = GameState.KnockSelf;
+                        this.cellList.Remove(cell);
+                        this.headCell.Knock();
+                        break;
+                    }
+                }
+            }
         }
     }
 }

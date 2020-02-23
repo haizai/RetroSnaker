@@ -6,8 +6,9 @@ enum Dir {
 }
 enum GameState {
     InGame,
-    KnockWall, // 撞墙
     End,
+    KnockWall, // 撞墙
+    KnockSelf, // 撞尾
 }
 
 struct Pos {

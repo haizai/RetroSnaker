@@ -17,10 +17,9 @@ namespace RetroSnaker
             this.itemList.Add(snaker);
             wall = new Wall(Global.Width,Global.Height);
             this.itemList.Add(wall);
-            
         }
         public void runLoop(){
-            if (Global.State == GameState.KnockWall) {
+            if (Global.State != GameState.InGame) {
                 return;
             }
             foreach (var item in this.itemList)
@@ -49,6 +48,7 @@ namespace RetroSnaker
                 this.testDic[e1.frame]();
             }
         }
+        // 处理不同item的事件， item内部的事件在update中就处理了
         private void ResolveConflict(){
             var headPos = this.snaker.GetHeadPos();
             if (this.wall.IsWall(headPos)) {

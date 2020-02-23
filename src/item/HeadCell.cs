@@ -6,7 +6,7 @@ namespace RetroSnaker {
         public HeadCell(int x, int y, Dir dir): base(x,y,dir){
             this.foreColor = ConsoleColor.Yellow;
         }
-        public void KnockWall(){
+        public void Knock(){
             this.foreColor = ConsoleColor.Red;
         }
     }
