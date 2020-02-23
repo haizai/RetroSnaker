@@ -12,12 +12,17 @@ namespace RetroSnaker
         private Wall wall;
         public Scene() {
             Global.Event.addEventListener(EventName.AfterUpdate,this.OnAfterUpdate);
+            Global.Event.addEventListener(EventName.Reset,this.OnReset);
+            this.Init();
+        }
+        private void Init(){
             map = new Map(Global.Width,Global.Height);
             snaker = new Snaker();
             this.itemList.Add(snaker);
             wall = new Wall(Global.Width,Global.Height);
             this.itemList.Add(wall);
         }
+
         public void runLoop(){
             if (Global.State != GameState.InGame) {
                 return;
@@ -47,6 +52,15 @@ namespace RetroSnaker
             if (this.testDic.ContainsKey(e1.frame)) {
                 this.testDic[e1.frame]();
             }
+        }
+        private void OnReset(Object sender,EventArgs e) {
+            foreach (var item in this.itemList){
+                item.Clear();
+            }
+            this.itemList.Clear();
+            this.map.Clear();
+            this.map = null;
+            this.Init();
         }
         // 处理不同item的事件， item内部的事件在update中就处理了
         private void ResolveConflict(){

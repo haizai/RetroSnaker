@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 namespace RetroSnaker {
-    class Map:IDebug {
+    class Map:IDebug,IClear {
         public int width;
         public int height;
         private Dictionary<Pos,DrawData> nowMapData = new Dictionary<Pos,DrawData>();
@@ -65,6 +65,11 @@ namespace RetroSnaker {
             // ret["now"] = nowList;
             // ret["last"] = lastList;
             return "";
+        }
+        public void Clear() {
+            this.nowMapData.Clear();
+            this.lastMapData.Clear();
+            Console.Clear();
         }
     }
 }

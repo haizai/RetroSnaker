@@ -2,11 +2,16 @@ using System;
 using System.Collections.Generic;
 namespace RetroSnaker {
     class GameEvent {
+        public void emit(EventName name) {
+            if (this.eventDic.ContainsKey(name)) {
+                this.eventDic[name].emit(EventArgs.Empty);
+            }
+        }
         public void emit(EventName name, EventArgs e) {
             if (this.eventDic.ContainsKey(name)) {
                 this.eventDic[name].emit(e);
             }
-        }
+        }        
         public void addEventListener(EventName name, EventHandler f) {
             if (!this.eventDic.ContainsKey(name)) {
                 this.eventDic[name] = new OneEvent(name);

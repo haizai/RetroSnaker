@@ -21,7 +21,6 @@ namespace RetroSnaker
             this.cellList.Add(new Cell(3,1,Dir.Right));
             this.cellList.Add(new Cell(2,1,Dir.Right));
             this.cellList.Add(new Cell(1,1,Dir.Right));
-
             Global.Event.addEventListener(EventName.TurnDir,this.OnTurnDir);
         }
         public DrawData[] Draw() {
@@ -91,6 +90,11 @@ namespace RetroSnaker
                     }
                 }
             }
+        }
+        public void Clear() {
+            this.cellList.Clear();
+            this.headCell = null;
+            Global.Event.removeEventListener(EventName.TurnDir,this.OnTurnDir);
         }
     }
 }

@@ -38,5 +38,8 @@ namespace RetroSnaker
         public void Knock(Pos pos) {
             wallDic.Remove(pos);
         }
+        public void Clear() {
+            wallDic.Clear();
+        }
     }
 }

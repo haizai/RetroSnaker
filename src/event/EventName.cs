@@ -5,5 +5,7 @@ namespace RetroSnaker {
         AfterUpdate,
         // EventArgsDir
         TurnDir,
+        // EventArgs
+        Reset,
     }
 }

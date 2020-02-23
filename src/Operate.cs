@@ -10,8 +10,10 @@ namespace RetroSnaker
                     Global.Event.emit(EventName.TurnDir,new EventArgsDir(Dir.Left));
                 } else if (key.Key == ConsoleKey.RightArrow) {
                     Global.Event.emit(EventName.TurnDir,new EventArgsDir(Dir.Right));
-                }else if (key.Key == ConsoleKey.DownArrow) {
+                } else if (key.Key == ConsoleKey.DownArrow) {
                     Global.Event.emit(EventName.TurnDir,new EventArgsDir(Dir.Bottom));
+                }else if (key.Key == ConsoleKey.Escape) {
+                    Global.Event.emit(EventName.Reset);
                 }
             } while(true);
 
