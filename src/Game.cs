@@ -2,6 +2,7 @@
 using System;
 using System.Timers;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 namespace RetroSnaker
 {
     class Game
@@ -9,6 +10,7 @@ namespace RetroSnaker
         private Scene scene;
         private Timer timer;
         public async Task Run(){
+            
             Init();
             this.timer = new Timer(1000.0 / Global.Fps);
             this.timer.Elapsed += LoopHandler;

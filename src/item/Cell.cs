@@ -1,16 +1,21 @@
 // 蛇上方块
+using System;
 using System.Collections.Generic;
 namespace RetroSnaker {
     class Cell {
         public int x;
         public int y;
+        public char cha = '▇';
+        public ConsoleColor foreColor = ConsoleColor.Gray;
         public Dir dir;
-        private List<TurnData> turnList = new List<TurnData>();
-        public bool isHead = false;
+        protected List<TurnData> turnList = new List<TurnData>();
         public Cell(int x, int y, Dir dir) {
             this.x = x;
             this.y = y;
             this.dir = dir;
+        }
+        public Pos GetPos(){
+            return new Pos(x,y);
         }
         public void Update(){
             Dir? _dir = null;
@@ -42,6 +47,9 @@ namespace RetroSnaker {
         }
         public void Turn(Dir dir, int frame) {
             this.turnList.Add(new TurnData(){turn = dir, frame = frame});
+        }
+        public DrawData Draw(){
+            return new DrawData(x, y, cha, foreColor);
         }
     }
 }

@@ -11,5 +11,8 @@ namespace RetroSnaker
         // 总帧数
         static public int Frame = 0;
         static public GameEvent Event = new GameEvent(); 
+        static public int Width = 10;
+        static public int Height = 10;
+        static public GameState State = GameState.InGame;
     }
 }

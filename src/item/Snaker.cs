@@ -7,9 +7,10 @@ namespace RetroSnaker
     {
         public Dir dir = Dir.Right;
         private List<Cell> cellList = new List<Cell>();
+        private HeadCell headCell;
+        public bool hideHead = false;
         public Snaker() {
-            var headCell = new Cell(5,1,Dir.Right);
-            headCell.isHead = true;
+            headCell = new HeadCell(5,1,Dir.Right);
             this.cellList.Add(headCell);
             this.cellList.Add(new Cell(4,1,Dir.Right));
             this.cellList.Add(new Cell(3,1,Dir.Right));
@@ -19,11 +20,7 @@ namespace RetroSnaker
         public DrawData[] Draw() {
             var data = new DrawData[this.cellList.Count];
             for (int i = 0; i < this.cellList.Count; i++) {
-                if (this.cellList[i].isHead) {
-                    data[i] = new DrawData(this.cellList[i].x, this.cellList[i].y, '▇', ConsoleColor.Yellow);
-                } else {
-                    data[i] = new DrawData(this.cellList[i].x, this.cellList[i].y, '▇');
-                }
+                data[i] = this.cellList[i].Draw();
             }
             return data;
         }
@@ -52,6 +49,12 @@ namespace RetroSnaker
                 }
             }
             this.willTurn = null;
+        }
+        public Pos GetHeadPos(){
+            return this.headCell.GetPos();
+        }
+        public void KnockWall(){
+            this.headCell.KnockWall();
         }
     }
 }
