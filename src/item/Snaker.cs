@@ -10,12 +10,16 @@ namespace RetroSnaker
         private HeadCell headCell;
         public bool hideHead = false;
         public Snaker() {
-            headCell = new HeadCell(5,1,Dir.Right);
+            headCell = new HeadCell(7,1,Dir.Right);
             this.cellList.Add(headCell);
+            this.cellList.Add(new Cell(6,1,Dir.Right));
+            this.cellList.Add(new Cell(5,1,Dir.Right));
             this.cellList.Add(new Cell(4,1,Dir.Right));
             this.cellList.Add(new Cell(3,1,Dir.Right));
             this.cellList.Add(new Cell(2,1,Dir.Right));
             this.cellList.Add(new Cell(1,1,Dir.Right));
+
+            Global.Event.addEventListener(EventName.TurnDir,this.OnTurnDir);
         }
         public DrawData[] Draw() {
             var data = new DrawData[this.cellList.Count];
@@ -31,8 +35,9 @@ namespace RetroSnaker
             }
         }
         private Dir? willTurn = null;
-        public void Turn(Dir _dir) {
-            this.willTurn = _dir;
+        private void OnTurnDir(Object sender, EventArgs e) {
+            var e1 = (EventArgsDir)e;
+            this.willTurn = e1.dir;
         }
         private void UpdateTurn() {
             if (this.willTurn.HasValue) {

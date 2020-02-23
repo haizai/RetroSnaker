@@ -18,21 +18,7 @@ namespace RetroSnaker
             wall = new Wall(Global.Width,Global.Height);
             this.itemList.Add(wall);
             
-            // TestFun(2,()=>{
-            //     snaker.Turn(Dir.Bottom);
-            // });
-            // TestFun(4,()=>{
-            //     snaker.Turn(Dir.Left);
-            // });
-            // TestFun(6,()=>{
-            //     snaker.Turn(Dir.Top);
-            // });
-            // TestFun(7,()=>{
-            //     snaker.Turn(Dir.Right);
-            // });
-            // TestFun(10,()=>{
-            //     snaker.Turn(Dir.Bottom);
-            // });
+            TestFun(2,Dir.Bottom);
         }
         public void runLoop(){
             if (Global.State == GameState.KnockWall) {
@@ -53,8 +39,10 @@ namespace RetroSnaker
             this.map.DrawDiff();
         }
         private Dictionary<int, Function> testDic = new Dictionary<int,Function>();
-        private void TestFun(int frame, Function cb) {
-            this.testDic[frame] = cb;
+        private void TestFun(int frame, Dir dir) {
+            this.testDic[frame] = () => {
+                Global.Event.emit(EventName.TurnDir,new EventArgsDir(){dir = dir});
+            };
         }
         private void OnAfterUpdate(Object sender, EventArgs e) {
             var e1 = (EventArgsFrame)e;
