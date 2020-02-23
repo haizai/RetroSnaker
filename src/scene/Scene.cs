@@ -18,7 +18,6 @@ namespace RetroSnaker
             wall = new Wall(Global.Width,Global.Height);
             this.itemList.Add(wall);
             
-            TestFun(2,Dir.Bottom);
         }
         public void runLoop(){
             if (Global.State == GameState.KnockWall) {
@@ -41,7 +40,7 @@ namespace RetroSnaker
         private Dictionary<int, Function> testDic = new Dictionary<int,Function>();
         private void TestFun(int frame, Dir dir) {
             this.testDic[frame] = () => {
-                Global.Event.emit(EventName.TurnDir,new EventArgsDir(){dir = dir});
+                Global.Event.emit(EventName.TurnDir,new EventArgsDir(dir));
             };
         }
         private void OnAfterUpdate(Object sender, EventArgs e) {

@@ -34,26 +34,41 @@ namespace RetroSnaker
                 this.cellList[i].Update();
             }
         }
-        private Dir? willTurn = null;
+        private List<Dir> turnList = new List<Dir>();
         private void OnTurnDir(Object sender, EventArgs e) {
-            var e1 = (EventArgsDir)e;
-            this.willTurn = e1.dir;
-        }
-        private void UpdateTurn() {
-            if (this.willTurn.HasValue) {
-                if (
-                    this.willTurn == Dir.Bottom && this.dir != Dir.Top ||
-                    this.willTurn == Dir.Top && this.dir != Dir.Bottom ||
-                    this.willTurn == Dir.Left && this.dir != Dir.Right ||
-                    this.willTurn == Dir.Right && this.dir != Dir.Left
-                ) {
-                    for (int i = 0; i < this.cellList.Count; i++) {
-                        this.cellList[i].Turn(this.willTurn.Value, i+1);
+            if (Global.State == GameState.InGame) {
+                var e1 = (EventArgsDir)e;
+                if (this.turnList.Count == 0) {
+                    if (this.IsAllowDir(e1.dir,this.dir)) {
+                        this.turnList.Add(e1.dir);
+                        return;
                     }
-                    this.dir = this.willTurn.Value;
+                } else {
+                    if (this.IsAllowDir(e1.dir,this.turnList[this.turnList.Count-1])) {
+                        this.turnList.Add(e1.dir);
+                        return;
+                    }
                 }
             }
-            this.willTurn = null;
+        }
+        private bool IsAllowDir(Dir? nextDir, Dir? nowDir) {
+            return  nextDir == Dir.Bottom && this.dir != Dir.Top ||
+                    nextDir == Dir.Top && this.dir != Dir.Bottom ||
+                    nextDir == Dir.Left && this.dir != Dir.Right ||
+                    nextDir == Dir.Right && this.dir != Dir.Left;
+        }
+        private void UpdateTurn() {
+            if (this.turnList.Count == 0) {
+                return;
+            }
+            var newTurn = this.turnList[0];
+            this.turnList.RemoveAt(0);
+            if (IsAllowDir(newTurn,this.dir)) {
+                for (int i = 0; i < this.cellList.Count; i++) {
+                    this.cellList[i].Turn(newTurn, i+1);
+                }
+                this.dir = newTurn;
+            }
         }
         public Pos GetHeadPos(){
             return this.headCell.GetPos();

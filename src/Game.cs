@@ -11,27 +11,22 @@ namespace RetroSnaker
         private Timer timer;
         public async Task Run(){
             
-            Init();
+            this.scene = new Scene();
             this.timer = new Timer(1000.0 / Global.Fps);
             this.timer.Elapsed += LoopHandler;
             this.timer.AutoReset = true;
             this.timer.Enabled = true;
             this.timer.Start();
             Action work = () => {
-                do {
-
-                } while(true);
+                Operate.Register();
             };
             await Task.Run(work);
         }
         private void LoopHandler(Object source, ElapsedEventArgs e){
             Global.Frame++;
-            Global.Event.emit(EventName.BeforeUpdate,new EventArgsFrame(){frame = Global.Frame});
+            Global.Event.emit(EventName.BeforeUpdate,new EventArgsFrame(Global.Frame));
             this.scene.runLoop();
-            Global.Event.emit(EventName.AfterUpdate,new EventArgsFrame(){frame = Global.Frame});
-        }
-        private void Init(){
-            this.scene = new Scene();
+            Global.Event.emit(EventName.AfterUpdate,new EventArgsFrame(Global.Frame));
         }
     }
 }
