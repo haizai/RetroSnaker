@@ -5,6 +5,9 @@ namespace RetroSnaker
 {
     class Snaker:IItem
     {
+        // 表示多少帧1格，越小越快
+        private int moveFps = 10;
+        private int nowFps = 0;
         public Dir dir = Dir.Right;
         private List<Cell> cellList = new List<Cell>();
         private HeadCell headCell;
@@ -31,47 +34,78 @@ namespace RetroSnaker
             return data;
         }
         public void Update() {
+            if (this.nowFps<this.moveFps) {
+                this.nowFps++;
+                return;
+            }
+            this.nowFps = 0;
             this.UpdateTurn();
             for (int i = 0; i < this.cellList.Count; i++) {
                 this.cellList[i].Update();
             }
             this.TestKnockSelf();
         }
+        private Dir? nextDir = null;
         private List<Dir> turnList = new List<Dir>();
         private void OnTurnDir(Object sender, EventArgs e) {
             if (Global.State == GameState.InGame) {
                 var e1 = (EventArgsDir)e;
-                if (this.turnList.Count == 0) {
+                // if (this.turnList.Count == 0) {
+                //     if (this.IsAllowDir(e1.dir,this.dir)) {
+                //         this.turnList.Add(e1.dir);
+                //         this.nowFps = this.moveFps;
+                //         return;
+                //     }
+                // } else {
+                //     if (this.IsAllowDir(e1.dir,this.turnList[this.turnList.Count-1])) {
+                //         this.turnList.Add(e1.dir);
+                //         return;
+                //     }
+                // }
+                if (!this.nextDir.HasValue) {
                     if (this.IsAllowDir(e1.dir,this.dir)) {
-                        this.turnList.Add(e1.dir);
-                        return;
-                    }
-                } else {
-                    if (this.IsAllowDir(e1.dir,this.turnList[this.turnList.Count-1])) {
-                        this.turnList.Add(e1.dir);
+                        this.nextDir = e1.dir;
+                        this.nowFps = this.moveFps;
                         return;
                     }
                 }
             }
         }
-        private bool IsAllowDir(Dir? nextDir, Dir? nowDir) {
-            return  nextDir == Dir.Bottom && this.dir != Dir.Top ||
-                    nextDir == Dir.Top && this.dir != Dir.Bottom ||
-                    nextDir == Dir.Left && this.dir != Dir.Right ||
-                    nextDir == Dir.Right && this.dir != Dir.Left;
+        private bool IsAllowDir(Dir nextDir, Dir nowDir) {
+            if (nextDir == Dir.Bottom || nextDir == Dir.Top) {
+                if (nowDir == Dir.Top || nowDir == Dir.Bottom) {
+                    return false;
+                }
+            }
+            if (nextDir == Dir.Left || nextDir == Dir.Right) {
+                if (nowDir == Dir.Left || nowDir == Dir.Right) {
+                    return false;
+                }
+            }
+            return true;
         }
         private void UpdateTurn() {
-            if (this.turnList.Count == 0) {
+            // if (this.turnList.Count == 0) {
+            //     return;
+            // }
+            // var newTurn = this.turnList[0];
+            // this.turnList.RemoveAt(0);
+            // if (IsAllowDir(newTurn,this.dir)) {
+            //     for (int i = 0; i < this.cellList.Count; i++) {
+            //         this.cellList[i].Turn(newTurn, i+1);
+            //     }
+            //     this.dir = newTurn;
+            // }
+            if (!this.nextDir.HasValue) {
                 return;
             }
-            var newTurn = this.turnList[0];
-            this.turnList.RemoveAt(0);
-            if (IsAllowDir(newTurn,this.dir)) {
+            if (IsAllowDir(this.nextDir.Value,this.dir)) {
                 for (int i = 0; i < this.cellList.Count; i++) {
-                    this.cellList[i].Turn(newTurn, i+1);
+                    this.cellList[i].Turn(this.nextDir.Value, i+1);
                 }
-                this.dir = newTurn;
+                this.dir = this.nextDir.Value;
             }
+            this.nextDir = null;
         }
         public Pos GetHeadPos(){
             return this.headCell.GetPos();

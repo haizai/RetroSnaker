@@ -37,7 +37,7 @@ namespace RetroSnaker {
             }
         }
         private void DrawAt(DrawData drawData) {
-            Console.SetCursorPosition(drawData.x*2,drawData.y);
+            Console.SetCursorPosition(drawData.x*2,drawData.y + 1);
             Console.ForegroundColor = drawData.foreColor;
             Console.Write(drawData.cha);
         }

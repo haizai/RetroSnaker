@@ -32,6 +32,7 @@ namespace RetroSnaker
                 item.Update();
             }
             this.ResolveConflict();
+
             foreach (var item in this.itemList)
             {
                 var drawDatas = item.Draw();
@@ -41,8 +42,8 @@ namespace RetroSnaker
             }
             this.map.DrawDiff();
         }
-        private Dictionary<int, Function> testDic = new Dictionary<int,Function>();
-        private void TestFun(int frame, Dir dir) {
+        private Dictionary<long, Function> testDic = new Dictionary<long,Function>();
+        private void TestFun(long frame, Dir dir) {
             this.testDic[frame] = () => {
                 Global.Event.emit(EventName.TurnDir,new EventArgsDir(dir));
             };
@@ -60,6 +61,7 @@ namespace RetroSnaker
             this.itemList.Clear();
             this.map.Clear();
             this.map = null;
+            Global.State = GameState.InGame;
             this.Init();
         }
         // 处理不同item的事件， item内部的事件在update中就处理了

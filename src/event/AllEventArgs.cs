@@ -1,8 +1,8 @@
 using System;
 namespace RetroSnaker {
     class EventArgsFrame:EventArgs {
-        public int frame;
-        public EventArgsFrame(int frame){this.frame = frame;}
+        public long frame;
+        public EventArgsFrame(long frame){this.frame = frame;}
     }
     class EventArgsDir:EventArgs {
         public Dir dir;
