@@ -40,14 +40,10 @@ namespace RetroSnaker
             this.scene.runLoop();
             Global.Event.emit(EventName.AfterUpdate,new EventArgsFrame(this.frame));
             var now = DateTime.Now;
-            double s = 1000d / Global.Fps;
-            double frameSpan = ((now - this.startTime).TotalMilliseconds - this.frame * s);
-            if (frameSpan >= s) {
-                this.timer.Interval = 0.01d;
-            } else {
-                this.timer.Interval = frameSpan = s;
-            }
             this.frame += 1L;
+            double s = 1000d / Global.Fps;
+            double frameSpan = (this.frame * s - (now - this.startTime).TotalMilliseconds);
+            this.timer.Interval = Math.Max(frameSpan ,0.01d);
             this.timer.AutoReset = true;
         }
         private void sHandler(Object source, ElapsedEventArgs e){

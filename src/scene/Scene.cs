@@ -21,6 +21,7 @@ namespace RetroSnaker
             this.itemList.Add(snaker);
             wall = new Wall(Global.Width,Global.Height);
             this.itemList.Add(wall);
+            Global.State = GameState.InGame;
         }
 
         public void runLoop(){
@@ -61,7 +62,6 @@ namespace RetroSnaker
             this.itemList.Clear();
             this.map.Clear();
             this.map = null;
-            Global.State = GameState.InGame;
             this.Init();
         }
         // 处理不同item的事件， item内部的事件在update中就处理了

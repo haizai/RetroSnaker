@@ -6,7 +6,7 @@ namespace RetroSnaker
     class Snaker:IItem
     {
         // 表示多少帧1格，越小越快
-        private int moveFps = 10;
+        private int moveFps = 20;
         private int nowFps = 0;
         public Dir dir = Dir.Right;
         private List<Cell> cellList = new List<Cell>();
