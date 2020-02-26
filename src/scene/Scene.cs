@@ -10,6 +10,8 @@ namespace RetroSnaker
         private Snaker snaker;
         private Map map;
         private Wall wall;
+        private Star star;
+        private int freeCount;
         public Scene() {
             Global.Event.addEventListener(EventName.AfterUpdate,this.OnAfterUpdate);
             Global.Event.addEventListener(EventName.Reset,this.OnReset);
@@ -17,10 +19,13 @@ namespace RetroSnaker
         }
         private void Init(){
             map = new Map(Global.Width,Global.Height);
+            freeCount = (Global.Width-2) * (Global.Height-2);
             snaker = new Snaker();
             this.itemList.Add(snaker);
             wall = new Wall(Global.Width,Global.Height);
             this.itemList.Add(wall);
+            star = new Star(8,4);
+            this.itemList.Add(star);
             Global.State = GameState.InGame;
         }
 
@@ -67,12 +72,37 @@ namespace RetroSnaker
         // 处理不同item的事件， item内部的事件在update中就处理了
         private void ResolveConflict(){
             var headPos = this.snaker.GetHeadPos();
-            if (this.wall.IsWall(headPos)) {
+            if (wall.IsWall(headPos)) {
                 Global.State = GameState.KnockWall;
-                this.wall.Knock(headPos);
-                this.snaker.KnockWall();
+                wall.Knock(headPos);
+                snaker.KnockWall();
                 return;
             }
+            if (star.IsHit(headPos)) {
+                snaker.HitStar();
+                star.SetStar(GetRandomFreePos(snaker.GetAllPosList()));
+            }
+        }
+        private Pos GetRandomFreePos(List<Pos> snakerPosList) {
+            Random rnd = new Random();
+            int val = rnd.Next(0,freeCount - snakerPosList.Count);
+            int a = 0;
+            int b = 0;
+            for (int i = 1; i < Global.Width - 1;i++) {
+                for (int j = 1; j < Global.Height - 1;j++) {
+                    var p = new Pos(i,j);
+                    if (snakerPosList.Contains(p)) {
+                        b++; 
+                    } else {
+                        if (a == val) {
+                            return p;
+                        } else {
+                            a++;
+                        }
+                    }
+                }
+            }
+            return new Pos(0,0);
         }
     }
 }

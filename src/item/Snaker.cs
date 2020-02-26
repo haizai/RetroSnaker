@@ -3,27 +3,20 @@ using System;
 using System.Collections.Generic;
 namespace RetroSnaker
 {
-    class Snaker:IItem
+    class Snaker:IItem,IDebug
     {
-        // 表示多少帧1格，越小越快
-        private int moveFps = 20;
         private int nowFps = 0;
         public Dir dir = Dir.Right;
         private List<Cell> cellList = new List<Cell>();
         private HeadCell headCell;
         public bool hideHead = false;
         public Snaker() {
-            headCell = new HeadCell(10,1,Dir.Right);
+            headCell = new HeadCell(Global.InitLeng,1,Dir.Right);
             this.cellList.Add(headCell);
-            this.cellList.Add(new Cell(9,1,Dir.Right));
-            this.cellList.Add(new Cell(8,1,Dir.Right));
-            this.cellList.Add(new Cell(7,1,Dir.Right));
-            this.cellList.Add(new Cell(6,1,Dir.Right));
-            this.cellList.Add(new Cell(5,1,Dir.Right));
-            this.cellList.Add(new Cell(4,1,Dir.Right));
-            this.cellList.Add(new Cell(3,1,Dir.Right));
-            this.cellList.Add(new Cell(2,1,Dir.Right));
-            this.cellList.Add(new Cell(1,1,Dir.Right));
+            for (int i = Global.InitLeng - 1; i > 0; i--) {
+                this.cellList.Add(new Cell(i,1,Dir.Right));
+            }
+            Log();
             Global.Event.addEventListener(EventName.TurnDir,this.OnTurnDir);
         }
         public DrawData[] Draw() {
@@ -33,17 +26,29 @@ namespace RetroSnaker
             }
             return data;
         }
+        private Pos lastPos;
+        private Dir lastDir;
+        private List<TurnData> lastTurnList;
+        private int MoveCount = 0;
         public void Update() {
-            if (this.nowFps<this.moveFps) {
+            if (this.nowFps<Global.MoveFps) {
                 this.nowFps++;
                 return;
             }
-            this.nowFps = 0;
+            MoveCount += 1;
+            Log();
             this.UpdateTurn();
+            var lastCell = this.cellList[this.cellList.Count - 1];
+            this.lastPos = new Pos(lastCell.x, lastCell.y);
+            this.lastDir = lastCell.dir;
+            this.lastTurnList = lastCell.CloneTurnList();
+            this.nowFps = 0;
             for (int i = 0; i < this.cellList.Count; i++) {
                 this.cellList[i].Update();
             }
             this.TestKnockSelf();
+            
+            // DebugMode.Debug(this);
         }
         private Dir? nextDir = null;
         private List<Dir> turnList = new List<Dir>();
@@ -65,7 +70,7 @@ namespace RetroSnaker
                 if (!this.nextDir.HasValue) {
                     if (this.IsAllowDir(e1.dir,this.dir)) {
                         this.nextDir = e1.dir;
-                        this.nowFps = this.moveFps;
+                        this.nowFps = Global.MoveFps;
                         return;
                     }
                 }
@@ -125,10 +130,36 @@ namespace RetroSnaker
                 }
             }
         }
+        public List<Pos> GetAllPosList(){
+            var posList = new List<Pos>();
+            for (int i = 0; i < this.cellList.Count; i++) {
+                posList.Add(new Pos(this.cellList[i].x,this.cellList[i].y));
+            }
+            return posList;
+        }
         public void Clear() {
             this.cellList.Clear();
             this.headCell = null;
             Global.Event.removeEventListener(EventName.TurnDir,this.OnTurnDir);
+        }
+        public void HitStar() {
+            this.cellList.Add(new Cell(lastPos.x,lastPos.y,lastDir,lastTurnList));
+            Log();
+        }
+        public Object Debug(){
+            var list = new List<string>();
+            foreach(var cell in cellList) {
+                list.Add(cell.Debug());
+            }
+            var lastStr = "[Last]";
+            foreach(var t in lastTurnList) {
+                lastStr += $"turn={t.turn},frame={t.frame};";
+            }
+            list.Add($"x={lastPos.x},y={lastPos.y},dir={lastDir},list={lastStr}");
+            return list;
+        }
+        private void Log() {
+            Global.Log($"Length {this.cellList.Count} Move {MoveCount}");
         }
     }
 }

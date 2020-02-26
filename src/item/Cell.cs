@@ -14,6 +14,20 @@ namespace RetroSnaker {
             this.y = y;
             this.dir = dir;
         }
+        public Cell(int x, int y, Dir dir,List<TurnData> turnList) {
+            this.x = x;
+            this.y = y;
+            this.dir = dir;
+            this.turnList = turnList;
+        }
+        public List<TurnData> CloneTurnList() {
+            var list = new List<TurnData>();
+            foreach (var item in this.turnList)
+            {
+                list.Add(new TurnData(){turn = item.turn, frame = item.frame});
+            }
+            return list;
+        }
         public Pos GetPos(){
             return new Pos(x,y);
         }
@@ -50,6 +64,13 @@ namespace RetroSnaker {
         }
         public DrawData Draw(){
             return new DrawData(x, y, cha, foreColor);
+        }
+        public string Debug(){
+            var turnStr = "";
+            foreach(var t in turnList) {
+                turnStr += $"turn={t.turn},frame={t.frame};";
+            }
+            return $"x={x},y={y},dir={dir},list={turnStr}";
         }
     }
 }

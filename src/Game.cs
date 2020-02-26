@@ -47,7 +47,7 @@ namespace RetroSnaker
             this.timer.AutoReset = true;
         }
         private void sHandler(Object source, ElapsedEventArgs e){
-            Global.Log($"FPS {this.frame - this.sFrame}");
+            // Global.Log($"FPS {this.frame - this.sFrame}");
             this.sFrame = this.frame;
         }
     }
