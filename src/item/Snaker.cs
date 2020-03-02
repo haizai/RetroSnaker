@@ -11,9 +11,9 @@ namespace RetroSnaker
         private HeadCell headCell;
         public bool hideHead = false;
         public Snaker() {
-            headCell = new HeadCell(Global.InitLeng,1,Dir.Right);
+            headCell = new HeadCell(Global.Config.InitLeng,1,Dir.Right);
             this.cellList.Add(headCell);
-            for (int i = Global.InitLeng - 1; i > 0; i--) {
+            for (int i = Global.Config.InitLeng - 1; i > 0; i--) {
                 this.cellList.Add(new Cell(i,1,Dir.Right));
             }
             Log();
@@ -31,7 +31,7 @@ namespace RetroSnaker
         private List<TurnData> lastTurnList;
         private int MoveCount = 0;
         public void Update() {
-            if (this.nowFps<Global.MoveFps) {
+            if (this.nowFps<Global.Config.MoveFps) {
                 this.nowFps++;
                 return;
             }
@@ -70,7 +70,7 @@ namespace RetroSnaker
                 if (!this.nextDir.HasValue) {
                     if (this.IsAllowDir(e1.dir,this.dir)) {
                         this.nextDir = e1.dir;
-                        this.nowFps = Global.MoveFps;
+                        this.nowFps = Global.Config.MoveFps;
                         return;
                     }
                 }
